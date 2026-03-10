@@ -1,47 +1,69 @@
 {
-  "lastUpdated": "2026-02-28",
+  "lastUpdated": "2026-03-10",
   "version": "1.0",
   "hotNews": [
     {
       "id": 1,
-      "title": "GPT-5 预览版发布",
+      "title": "Gemini 3.1 Pro 登顶发布",
       "category": "模型发布",
-      "date": "2026-02",
-      "summary": "OpenAI发布GPT-5预览版，支持多模态理解和生成长达100万token的上下文，推理能力大幅提升。",
-      "tags": ["多模态", "长上下文", "推理增强"],
+      "date": "2026-03-03",
+      "summary": "谷歌发布新一代旗舰模型，12项基准测试第一，100万token上下文，推理成绩77.1%，超越Claude 4.6。",
+      "tags": ["12项第一", "100万上下文", "77.1%推理"],
+      "source": "Google AI Blog",
+      "url": "https://ai.googleblog.com",
+      "verified": true
+    },
+    {
+      "id": 2,
+      "title": "千问 Qwen3.5 轻量版系列开源",
+      "category": "开源模型",
+      "date": "2026-03-02",
+      "summary": "阿里开源0.8B/2B/4B/9B四款小模型，适用于移动端和边缘计算，马斯克点赞\"智能密度令人印象深刻\"。",
+      "tags": ["0.8B-9B", "边缘计算", "马斯克点赞"],
+      "source": "通义千问",
+      "url": "https://qianwen.aliyun.com",
+      "verified": true
+    },
+    {
+      "id": 3,
+      "title": "GPT-5.3 Codex 编程专用版",
+      "category": "编程模型",
+      "date": "2026-03",
+      "summary": "OpenAI发布深度融合推理的编程模型，提升多文件逻辑处理能力，减少重复任务，开发者生产力大幅提升。",
+      "tags": ["编程专用", "多文件处理", "推理增强"],
       "source": "OpenAI Blog",
       "url": "https://openai.com/blog",
       "verified": true
     },
     {
-      "id": 2,
-      "title": "DeepSeek-V4 开源",
-      "category": "开源模型",
-      "date": "2026-02",
-      "summary": "DeepSeek发布V4版本，性能接近GPT-4但成本降低80%，支持128K上下文，完全开源可商用。",
-      "tags": ["开源", "高性价比", "长上下文"],
-      "source": "DeepSeek",
-      "url": "https://deepseek.com",
-      "verified": true
-    },
-    {
-      "id": 3,
-      "title": "LangChain 3.0 发布",
-      "category": "工具框架",
-      "date": "2026-02",
-      "summary": "LangChain发布3.0大版本，重构核心架构，性能提升3倍，新增可视化链路编排工具。",
-      "tags": ["框架", "性能优化", "可视化"],
-      "source": "LangChain",
-      "url": "https://langchain.com",
-      "verified": true
-    },
-    {
       "id": 4,
-      "title": "Claude企业版上线",
-      "category": "应用落地",
-      "date": "2026-02",
-      "summary": "Anthropic推出Claude企业版，支持SSO、审计日志、数据隔离等企业级功能，满足合规需求。",
-      "tags": ["企业级", "安全合规", "B2B"],
+      "title": "Gemini 3.1 Flash-Lite 发布",
+      "category": "高性价比",
+      "date": "2026-03-03",
+      "summary": "谷歌最具性价比模型，$0.25/百万输入token，适合翻译、内容审核、UI生成等高容量实时工作负载。",
+      "tags": ["$0.25/百万", "高容量", "实时工作"],
+      "source": "Google AI Blog",
+      "url": "https://ai.googleblog.com",
+      "verified": true
+    },
+    {
+      "id": 5,
+      "title": "Runway Gen-4.5 重夺冠军",
+      "category": "视频生成",
+      "date": "2026-03",
+      "summary": "代号\"WhisperThunder\"，1247 ELO高分超越Sora 2和Veo 3，支持4K分辨率，生成速度仅1-3分钟。",
+      "tags": ["1247 ELO", "4K分辨率", "1-3分钟"],
+      "source": "Runway",
+      "url": "https://runwayml.com",
+      "verified": true
+    },
+    {
+      "id": 6,
+      "title": "Claude 4.6 & 远程控制功能",
+      "category": "模型发布",
+      "date": "2026-03",
+      "summary": "Anthropic发布新一代模型，100万token上下文，Claude Code新增远程控制功能，增强移动端编程体验。",
+      "tags": ["100万上下文", "远程控制", "移动编程"],
       "source": "Anthropic",
       "url": "https://anthropic.com",
       "verified": true
@@ -49,29 +71,54 @@
   ],
   "modelTimeline": [
     {
-      "name": "GPT-5 Preview",
+      "name": "Gemini 3.1 Pro",
+      "date": "2026年3月",
+      "description": "谷歌新一代旗舰，12项基准测试第一，100万token上下文，推理成绩77.1%，超越Claude 4.6。"
+    },
+    {
+      "name": "GPT-5.3 Codex",
+      "date": "2026年3月",
+      "description": "OpenAI编程专用模型，深度融合推理，提升多文件逻辑处理，开发者生产力大幅提升。"
+    },
+    {
+      "name": "Claude 4.6",
+      "date": "2026年3月",
+      "description": "Anthropic新一代模型，100万token上下文，Claude Code新增远程控制功能。"
+    },
+    {
+      "name": "Qwen3.5 轻量版系列",
+      "date": "2026年3月",
+      "description": "阿里开源0.8B/2B/4B/9B小模型，适用于移动端和边缘计算，马斯克点赞\"智能密度令人印象深刻\"。"
+    },
+    {
+      "name": "Runway Gen-4.5",
+      "date": "2026年3月",
+      "description": "代号\"WhisperThunder\"，1247 ELO高分超越Sora 2，4K分辨率，生成速度1-3分钟。"
+    },
+    {
+      "name": "GPT-5.2",
       "date": "2026年2月",
-      "description": "OpenAI最新旗舰模型，多模态能力全面升级，支持文本、图像、视频、音频统一处理。"
+      "description": "OpenAI旗舰模型，多模态能力升级，GPT-4o系列正式下线，100万token上下文。"
     },
     {
-      "name": "DeepSeek-V4",
+      "name": "Seedance 2.0",
       "date": "2026年2月",
-      "description": "开源模型新标杆，671B参数MoE架构，推理成本降低80%，中文能力业界领先。"
+      "description": "字节视频生成模型，2K分辨率、90%可用率，原生音画同步，AI视频划时代进步。"
     },
     {
-      "name": "Claude 4",
-      "date": "2026年1月",
-      "description": "Anthropic新一代模型，推理能力大幅提升，在数学和编程任务上超越GPT-4。"
+      "name": "Qwen3.5-Plus",
+      "date": "2026年2月",
+      "description": "阿里开源，397B参数，256K上下文，Apache 2.0协议，登顶全球最强开源模型榜。"
     },
     {
-      "name": "Gemini 2.0 Ultra",
-      "date": "2025年12月",
-      "description": "Google最强多模态模型，支持200万token上下文，原生集成Google服务生态。"
+      "name": "GLM-5",
+      "date": "2026年2月",
+      "description": "智谱AI，华为昇腾训练，HLE评测全球第一，国产独立路径成形。"
     },
     {
-      "name": "文心一言 5.0",
-      "date": "2025年11月",
-      "description": "百度新一代大模型，中文理解能力显著提升，支持多模态生成和插件生态。"
+      "name": "豆包大模型 2.0",
+      "date": "2026年2月",
+      "description": "字节多模态模型，除夕互动19亿次，生成5000万+头像，App Store免费榜登顶。"
     }
   ],
   "techTrends": [
@@ -108,6 +155,24 @@
   ],
   "toolUpdates": [
     {
+      "name": "OpenClaw",
+      "version": "v2026.3.7",
+      "update": "可插拔上下文引擎，双模型架构，ACP协议，GitHub 24.8万星",
+      "date": "2026-03"
+    },
+    {
+      "name": "Manus AI",
+      "version": "Wide Research",
+      "update": "100个Agent并行，GAIA测试最先进，自主执行复杂任务",
+      "date": "2026-03"
+    },
+    {
+      "name": "Dify",
+      "version": "v1.0",
+      "update": "完成$3000万融资，企业级Agent工作流，140万+设备运行",
+      "date": "2026-03"
+    },
+    {
       "name": "LangChain",
       "version": "v3.0",
       "update": "架构重构，性能提升3倍，新增可视化工具",
@@ -132,9 +197,15 @@
       "date": "2025-12"
     },
     {
-      "name": "Dify",
-      "version": "v1.0",
-      "update": "正式版发布，工作流编排能力全面升级",
+      "name": "FastGPT",
+      "version": "v4.0",
+      "update": "知识库问答增强，工作流可视化升级",
+      "date": "2025-12"
+    },
+    {
+      "name": "Coze",
+      "version": "v2.0",
+      "update": "插件市场扩展，多模型切换支持",
       "date": "2025-12"
     }
   ]
