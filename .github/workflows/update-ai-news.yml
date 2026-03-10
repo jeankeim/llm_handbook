@@ -29,21 +29,25 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install feedparser requests
+        pip install feedparser requests jinja2
     
     - name: Run update script
       run: |
         python scripts/update_ai_news.py
     
+    - name: Generate HTML page
+      run: |
+        python scripts/generate_ai_news_html.py
+    
     - name: Check for changes
       id: check_changes
       run: |
-        if git diff --quiet data/ai-news.json; then
+        if git diff --quiet data/ai-news.json ai-tech-news.html; then
           echo "has_changes=false" >> $GITHUB_OUTPUT
-          echo "没有检测到数据变化"
+          echo "没有检测到数据或页面变化"
         else
           echo "has_changes=true" >> $GITHUB_OUTPUT
-          echo "检测到数据变化"
+          echo "检测到数据或页面变化"
         fi
     
     - name: Create Pull Request
@@ -51,7 +55,7 @@ jobs:
       uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: "chore: update AI news data [automated]"
+        commit-message: "chore: auto-update AI news data and HTML page [automated]"
         title: "📰 自动更新：AI技术动态数据"
         body: |
           ## 🤖 自动更新的AI新闻数据
@@ -61,6 +65,7 @@ jobs:
           ### 更新内容
           - 抓取时间: ${{ github.event.repository.updated_at }}
           - 数据来源: OpenAI, Anthropic, Google AI, Hugging Face等
+          - 自动生成: ai-tech-news.html 页面
           
           ### 审核清单
           - [ ] 新闻内容准确无误
