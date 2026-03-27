@@ -57,7 +57,7 @@
 
 ### 1. 知识库问答系统(RAG)
 **何时使用**: 企业文档检索、专业知识库
-**推荐模型**: GPT-4、Claude 3
+**推荐模型**: GPT-4.5、Claude 4.0
 **核心代码**:
 ```python
 from langchain.chains import RetrievalQA
@@ -78,7 +78,7 @@ result = chain.run(product="产品信息")
 
 ### 3. 代码生成
 **何时使用**: 自动编程、API生成、文档生成
-**推荐模型**: GPT-4、Claude 3.5、DeepSeek
+**推荐模型**: GPT-4.5、Claude 4.0、DeepSeek
 **核心代码**:
 ```python
 code = llm.invoke(f"用Python编写{requirement}")
@@ -107,7 +107,7 @@ sentiment = llm.invoke(f"分析情感：{content}")
 
 ### 6. AI Agent
 **何时使用**: 复杂任务自动化、工作流协调
-**推荐模型**: GPT-4、Claude 3.5
+**推荐模型**: GPT-4.5、Claude 4.0
 **核心代码**:
 ```python
 from langchain.agents import initialize_agent
@@ -125,16 +125,16 @@ result = agent.run("任务描述")
 ├─ 性能最优 → GPT-4
 ├─ 成本最低 → DeepSeek
 ├─ 中文理解 → 文心一言
-├─ 安全隐私 → Claude 3.5
+├─ 安全隐私 → Claude 4.0
 └─ 多模态能力 → Gemini
 ```
 
 ### 成本对比（2026年）
 | 模型 | 输入成本 | 输出成本 | 推荐用途 |
 |------|---------|---------|---------|
-| GPT-4 | $0.03/1K | $0.06/1K | 复杂推理 |
+| GPT-4.5 | $0.03/1K | $0.06/1K | 复杂推理 |
 | GPT-3.5 | $0.0005/1K | $0.0015/1K | 通用任务 |
-| Claude 3.5 | $0.003/1K | $0.015/1K | 安全敏感 |
+| Claude 4.0 | $0.003/1K | $0.015/1K | 安全敏感 |
 | 文心一言 | ¥0.008/1K | ¥0.016/1K | 中文场景 |
 | DeepSeek | ¥0.001/1K | ¥0.002/1K | 成本敏感 |
 

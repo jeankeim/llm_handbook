@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-03-10",
-  "version": "1.0",
+  "lastUpdated": "2026-03-27",
+  "version": "1.1",
   "hotNews": [
     {
       "id": 1,
@@ -67,9 +67,57 @@
       "source": "Anthropic",
       "url": "https://anthropic.com",
       "verified": true
+    },
+    {
+      "id": 7,
+      "title": "GPT-4.5 正式发布",
+      "category": "模型发布",
+      "date": "2026-03-27",
+      "summary": "OpenAI发布GPT-4.5，作为GPT-5之前的最后一个非推理模型，具备更强的情感智能和对话能力，无监督学习能力显著提升。",
+      "tags": ["情感智能", "无监督学习", "对话优化"],
+      "source": "OpenAI",
+      "url": "https://openai.com",
+      "verified": true
+    },
+    {
+      "id": 8,
+      "title": "Claude 4.0 发布",
+      "category": "模型发布",
+      "date": "2026-03-27",
+      "summary": "Anthropic发布Claude 4.0系列，包括Opus和Sonnet，具备超长上下文（20万token）、高级工具使用和代码能力，专为复杂Agent工作流设计。",
+      "tags": ["20万上下文", "Agent工作流", "代码能力"],
+      "source": "Anthropic",
+      "url": "https://anthropic.com",
+      "verified": true
+    },
+    {
+      "id": 9,
+      "title": "Grok 3 免费开放",
+      "category": "模型发布",
+      "date": "2026-03-27",
+      "summary": "xAI宣布Grok 3向所有用户免费开放，具备DeepSearch深度搜索和推理能力，支持X平台实时信息获取。",
+      "tags": ["免费开放", "DeepSearch", "实时信息"],
+      "source": "xAI",
+      "url": "https://x.ai",
+      "verified": true
     }
   ],
   "modelTimeline": [
+    {
+      "name": "GPT-4.5",
+      "date": "2026年3月",
+      "description": "OpenAI发布，GPT-5前最后一个非推理模型，情感智能和对话能力显著提升，无监督学习突破。"
+    },
+    {
+      "name": "Claude 4.0",
+      "date": "2026年3月",
+      "description": "Anthropic发布Opus和Sonnet，20万token上下文，高级工具使用，专为复杂Agent工作流设计。"
+    },
+    {
+      "name": "Grok 3",
+      "date": "2026年3月",
+      "description": "xAI免费开放，具备DeepSearch深度搜索和推理能力，支持X平台实时信息。"
+    },
     {
       "name": "Gemini 3.1 Pro",
       "date": "2026年3月",
