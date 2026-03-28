@@ -2,12 +2,33 @@
 """
 AI技术动态页面自动生成脚本
 根据JSON数据动态生成ai-tech-news.html
+支持按月份分组的时间线布局
 """
 
 import json
 import os
 from datetime import datetime
-from jinja2 import Template
+
+# 月份颜色配置
+MONTH_COLORS = {
+    "2026-03": {"bg": "red-600", "light": "red-50", "border": "red-100", "text": "red-800"},
+    "2026-02": {"bg": "indigo-600", "light": "indigo-50", "border": "indigo-100", "text": "indigo-800"},
+    "2026-01": {"bg": "blue-600", "light": "blue-50", "border": "blue-100", "text": "blue-800"},
+}
+
+# 分类颜色映射
+CATEGORY_COLORS = {
+    "市场格局": "red",
+    "国产登顶": "purple",
+    "模型发布": "green",
+    "开源模型": "orange",
+    "视频生成": "pink",
+    "海外动态": "blue",
+    "工具框架": "teal",
+    "应用落地": "cyan",
+    "最新动态": "gray"
+}
+
 
 def load_news_data():
     """加载新闻数据"""
@@ -17,76 +38,147 @@ def load_news_data():
             return json.load(f)
     return None
 
-def generate_hot_news_section(hot_news):
-    """生成热点新闻HTML片段"""
-    if not hot_news:
+
+def get_month_display(month_key):
+    """获取月份显示名称"""
+    month_map = {
+        "2026-03": "3月",
+        "2026-02": "2月", 
+        "2026-01": "1月"
+    }
+    return month_map.get(month_key, month_key)
+
+
+def format_date(date_str):
+    """格式化日期显示"""
+    try:
+        # 尝试解析日期
+        for fmt in ["%Y-%m-%d", "%a, %d %b %Y %H:%M:%S %z"]:
+            try:
+                dt = datetime.strptime(date_str, fmt)
+                return dt.strftime("%m-%d")
+            except:
+                continue
+    except:
+        pass
+    # 返回简化格式
+    if "-" in date_str:
+        parts = date_str.split("-")
+        if len(parts) >= 3:
+            return f"{parts[1]}-{parts[2]}"
+    return date_str
+
+
+def generate_hot_news_by_month(months_data):
+    """生成按月份分组的热点新闻HTML"""
+    if not months_data:
         return ""
     
-    html = '<div class="grid md:grid-cols-2 gap-6">\n'
+    # 按月份倒序排列
+    sorted_months = sorted(months_data.keys(), reverse=True)
     
-    for i, news in enumerate(hot_news[:6]):  # 只显示前6条
-        # 根据分类设置颜色
-        category_colors = {
-            "模型发布": "blue",
-            "开源模型": "purple", 
-            "工具框架": "green",
-            "应用落地": "orange",
-            "视频生成": "red",
-            "编程模型": "teal"
-        }
-        color = category_colors.get(news.get("category", ""), "gray")
+    html = ""
+    
+    for month_key in sorted_months:
+        month_data = months_data[month_key]
+        colors = MONTH_COLORS.get(month_key, MONTH_COLORS["2026-03"])
+        month_display = get_month_display(month_key)
         
-        html += f'''                <!-- News Item {i+1}: {news["title"]} -->
-                <div class="news-card bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="px-3 py-1 bg-{color}-100 text-{color}-700 rounded-full text-xs font-semibold">{news.get("category", "最新动态")}</span>
-                        <span class="text-gray-400 text-sm">{news["date"]}</span>
+        html += f'''            <!-- ===== {month_key}：{month_data.get("theme", "")} ===== -->
+            <div class="mb-10">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-{colors["bg"]} text-white rounded-full flex items-center justify-center font-bold text-lg mr-4">{month_display}</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900">{month_data.get("theme", "")}</h3>
+                        <p class="text-sm text-gray-500">{month_data.get("description", "")}</p>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 text-gray-900">{news["title"]}</h3>
-                    <p class="text-gray-600 text-sm mb-4">{news["summary"]}</p>
-                    <div class="flex flex-wrap items-center text-sm text-gray-500 gap-2">
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
 '''
         
-        # 添加标签
-        for tag in news.get("tags", [])[:3]:
-            html += f'                        <span class="px-2 py-1 bg-gray-100 rounded">🏷️ {tag}</span>\n'
+        # 获取该月的新闻
+        news_list = month_data.get("news", [])[:6]  # 最多6条
         
-        html += '''                    </div>
-                </div>
+        for news in news_list:
+            category = news.get("category", "最新动态")
+            color = CATEGORY_COLORS.get(category, "gray")
+            date_display = format_date(news.get("date", ""))
+            
+            html += f'''                    <div class="news-card bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-{color}-100 text-{color}-700 rounded-full text-xs font-semibold">{category}</span>
+                            <span class="text-gray-400 text-sm">{date_display}</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-900">{news["title"]}</h3>
+                        <p class="text-gray-600 text-sm mb-4">{news.get("summary", "")}</p>
+                        <div class="flex flex-wrap items-center text-sm text-gray-500 gap-2">
+'''
+            # 添加标签
+            for tag in news.get("tags", [])[:3]:
+                html += f'                            <span class="px-2 py-1 bg-gray-100 rounded">🏷️ {tag}</span>\n'
+            
+            html += '''                        </div>
+                    </div>
+'''
+        
+        html += '''                </div>
+            </div>
+
 '''
     
-    html += '            </div>'
     return html
 
-def generate_timeline_section(model_timeline):
-    """生成时间线HTML片段"""
-    if not model_timeline:
+
+def generate_timeline_by_month(months_data):
+    """生成按月份分组的模型发布时间线HTML"""
+    if not months_data:
         return ""
     
-    html = '''                <!-- Timeline Items -->
+    sorted_months = sorted(months_data.keys(), reverse=True)
+    
+    html = '''                <!-- Timeline Items - 按时间倒序排列 -->
                 <div class="space-y-8">
 '''
     
-    for i, model in enumerate(model_timeline[:10]):
-        # 根据序号设置颜色
-        colors = ["blue", "green", "indigo", "purple", "red", "orange", "pink", "teal", "yellow", "gray"]
-        color = colors[i % len(colors)]
+    for month_key in sorted_months:
+        month_data = months_data[month_key]
+        colors = MONTH_COLORS.get(month_key, MONTH_COLORS["2026-03"])
+        month_display = get_month_display(month_key)
         
-        html += f'''                    <!-- Item {i+1}: {model["name"]} -->
+        html += f'''
+                    <!-- ===== {month_key} ===== -->
                     <div class="relative flex items-start">
-                        <div class="absolute left-0 w-12 h-12 bg-{color}-600 text-white rounded-full flex items-center justify-center font-bold z-10">{i+1}</div>
-                        <div class="ml-16 bg-white rounded-xl p-6 border border-gray-100 shadow-sm flex-1">
-                            <div class="flex items-center justify-between mb-2">
-                                <h3 class="text-lg font-semibold">{model["name"]}</h3>
-                                <span class="text-sm text-gray-400">{model["date"]}</span>
-                            </div>
-                            <p class="text-gray-600 text-sm">{model["description"]}</p>
+                        <div class="absolute left-0 w-12 h-12 bg-{colors["bg"]} text-white rounded-full flex items-center justify-center font-bold z-10">{month_display}</div>
+                        <div class="ml-16 flex-1">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4">{month_key} · {month_data.get("theme", "")}</h3>
+                            <div class="space-y-4">
+'''
+        
+        # 获取该月的模型发布新闻
+        news_list = month_data.get("news", [])
+        
+        for news in news_list:
+            date_display = format_date(news.get("date", ""))
+            
+            html += f'''                                <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h4 class="font-semibold">{news["title"]}</h4>
+                                        <span class="text-sm text-gray-400">{date_display}</span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">{news.get("summary", "")}</p>
+                                </div>
+'''
+        
+        html += '''                            </div>
                         </div>
                     </div>
 '''
     
-    html += '                </div>'
+    html += '''
+                </div>
+'''
     return html
+
 
 def generate_tech_trends_section(tech_trends):
     """生成技术趋势HTML片段"""
@@ -154,14 +246,66 @@ def generate_tools_section(tool_updates):
             </div>'''
     return html
 
+def generate_tools_by_month(tool_updates):
+    """生成按月份分组的工具与框架更新HTML"""
+    if not tool_updates:
+        return ""
+    
+    html = '<!-- 按时间线分组的工具与框架更新 -->\n            <div class="space-y-8">\n'
+    
+    # 按月份倒序
+    sorted_months = sorted(tool_updates.keys(), reverse=True)
+    
+    for month_key in sorted_months:
+        month_tools = tool_updates[month_key]
+        colors = MONTH_COLORS.get(month_key, MONTH_COLORS["2026-03"])
+        
+        # 根据月份确定主题描述
+        theme_desc = {
+            "2026-03": "智能体应用与开发工具升级",
+            "2026-02": "基础设施与开发框架更新",
+            "2026-01": "年初工具链优化"
+        }.get(month_key, "工具与框架更新")
+        
+        html += f'''
+                <!-- {month_key} -->
+                <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+                    <div class="bg-{colors["light"]} px-6 py-3 border-b border-{colors["border"]}">
+                        <h3 class="font-bold text-{colors["text"]}">{month_key} · {theme_desc}</h3>
+                    </div>
+                    <table class="w-full">
+                        <tbody class="divide-y divide-gray-100">
+'''
+        
+        for tool in month_tools:
+            html += f'''                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 font-medium w-1/5">{tool["name"]}</td>
+                                <td class="px-6 py-4 w-1/6"><span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">{tool["version"]}</span></td>
+                                <td class="px-6 py-4 text-sm text-gray-600">{tool["update"]}</td>
+                            </tr>
+'''
+        
+        html += '''                        </tbody>
+                    </table>
+                </div>
+'''
+    
+    html += '''
+            </div>'''
+    return html
+
+
 def generate_full_html(data):
     """生成完整的HTML页面"""
     
-    # 生成各个板块内容
-    hot_news_html = generate_hot_news_section(data.get("hotNews", []))
-    timeline_html = generate_timeline_section(data.get("modelTimeline", []))
+    # 获取月份数据
+    months_data = data.get("months", {})
+    
+    # 生成各个板块内容（使用新的月份分组函数）
+    hot_news_html = generate_hot_news_by_month(months_data)
+    timeline_html = generate_timeline_by_month(months_data)
     trends_html = generate_tech_trends_section(data.get("techTrends", []))
-    tools_html = generate_tools_section(data.get("toolUpdates", []))
+    tools_html = generate_tools_by_month(data.get("toolUpdates", {}))
     
     # 获取最后更新时间
     last_updated = data.get("lastUpdated", datetime.now().strftime("%Y-%m-%d"))
@@ -354,10 +498,17 @@ def main():
     
     print(f"✅ 页面已生成: {output_file}")
     print(f"📊 数据统计:")
-    print(f"   - 热点新闻: {len(data.get('hotNews', []))} 条")
-    print(f"   - 模型时间线: {len(data.get('modelTimeline', []))} 个")
+    
+    # 统计月份数据
+    months_data = data.get("months", {})
+    total_news = sum(len(m.get("news", [])) for m in months_data.values())
+    print(f"   - 月份分组: {len(months_data)} 个")
+    print(f"   - 新闻总数: {total_news} 条")
+    for month_key, month_data in sorted(months_data.items(), reverse=True):
+        print(f"     · {month_key}: {len(month_data.get('news', []))} 条")
+    
     print(f"   - 技术趋势: {len(data.get('techTrends', []))} 项")
-    print(f"   - 工具更新: {len(data.get('toolUpdates', []))} 个")
+    print(f"   - 工具更新: {sum(len(tools) for tools in data.get('toolUpdates', {}).values())} 个")
     print(f"⏰ 最后更新: {data.get('lastUpdated', '未知')}")
     
     return True
